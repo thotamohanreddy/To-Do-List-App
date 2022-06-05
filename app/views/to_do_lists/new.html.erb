@@ -1,0 +1,7 @@
+<div class="card border-danger" style="max-width: 40rem;">
+  <div class="card-header border-danger text-center"><h2>New Activity</h2></div>
+  <div class="card-body text-dark">
+    <%= render "form", to_do_list: @to_do_list %>
+  </div>
+  <div class="card-footer border-success"><%= link_to "Back", to_do_lists_path,class:"btn btn-secondary" %></div>
+</div>
