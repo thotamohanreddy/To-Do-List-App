@@ -1,5 +1,29 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+<nav class="navbar navbar-expand-lg bg-secondary">
   <div class="container-fluid">
-    <div class="navbar-brand text-dark"><%= link_to "TO DO LIST",root_path,class:"navbar-band text-light btn btn-dark"%></div>
+    <a class="navbar-brand" ><%=link_to 'TO DO LIST',root_path,class:"navbar-brand"%></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <% if user_signed_in? %>
+        <li class="nav-item">
+          <%=button_to 'Sign Out',destroy_user_session_path,method: :delete,class:"nav-link active btn btn-outline-secondary btn-sm"%>
+        </li>
+        <br/><br/>
+        <p>&nbsp &nbsp</p>
+        <li class="nav-item">
+          <%=link_to 'Edit Profile',edit_user_registration_path,class:"nav-link active btn btn-outline-secondary btn-sm"%>
+        </li>
+      <% else%>
+        <li class="nav-item">
+          <a><%=link_to 'Sign up',new_user_registration_path,class:"nav-link active"%></a>
+        </li>
+        <li class="nav-item">
+          <a><%=link_to 'Sign In',user_session_path,class:"nav-link active"%></a>
+        </li>
+      <%end%>
+      </ul>
+    </div>
   </div>
 </nav>
