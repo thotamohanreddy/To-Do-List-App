@@ -1,43 +1,49 @@
-<table class="table table-bordered border-dark">
-  <tbody>
-    <div id="to_do_lists">
-      <% @to_do_lists.each do |to_do_list| %>
-        <% if to_do_list.done %>
-        <tr>
-          <td class="text-decoration-line-through"><%= link_to to_do_list.activity, edit_to_do_list_path(to_do_list) %></td>
-          <td>
-            <center>
-              <%= form_for(to_do_list) do |f|%>
-              <%= f.text_field :activity, type: 'hidden'%>
-              <%= f.check_box :done ,:checked => false, :style => 'visibility: hidden'%>
-              <%= f.submit "Uncross" ,class: "btn btn-outline-secondary btn-sm"%>
-              <% end%>
-            </center>
-          </td>
-          <td><%= button_to "Destroy", to_do_list, method: :delete ,data: {confirm: "Are you sure?"},class:"btn btn-outline-danger btn-sm"%></td>
-        </tr>
-        <%else%>
-          <tr>
-          <td><%= link_to to_do_list.activity, edit_to_do_list_path(to_do_list) %></td>
-          <td>
-            <center>
-              <%= form_for(to_do_list) do |f|%>
-                <%= f.text_field :activity, type: 'hidden'%>
-                <%= f.check_box :done ,:checked => true, :style => 'visibility: hidden'%>
-                <%= f.submit "Cross Off" ,class: "btn btn-outline-secondary btn-sm"%>
-              <% end%>
-            </center>
-          </td>
-          <td><%= button_to "Destroy", to_do_list, method: :delete ,data:{confirm: "Are you sure?"},class:"btn btn-outline-danger btn-sm" %></td>
-          </tr>
-        <% end%>
-      <% end %>
-    </div> 
-  </tbody>
-</table>
+<%if user_signed_in? %>
+  <table class="table table-bordered border-dark">
+    <tbody>
+      <div id="to_do_lists">
+        <% @to_do_lists.each do |to_do_list| %>
+          <% if to_do_list.user == current_user%>
+            <% if to_do_list.done %>
+            <tr>
+              <td class="text-decoration-line-through"><%= link_to to_do_list.activity, edit_to_do_list_path(to_do_list) %></td>
+              <td>
+                <center>
+                  <%= form_for(to_do_list) do |f|%>
+                  <%= f.text_field :activity, type: 'hidden'%>
+                  <%= f.check_box :done ,:checked => false, :style => 'visibility: hidden'%>
+                  <%= f.submit "Uncross" ,class: "btn btn-outline-secondary btn-sm"%>
+                  <% end%>
+                </center>
+              </td>
+              <td><%= button_to "Destroy", to_do_list, method: :delete ,data: {confirm: "Are you sure?"},class:"btn btn-outline-danger btn-sm"%></td>
+            </tr>
+            <%else%>
+              <tr>
+              <td><%= link_to to_do_list.activity, edit_to_do_list_path(to_do_list) %></td>
+              <td>
+                <center>
+                  <%= form_for(to_do_list) do |f|%>
+                    <%= f.text_field :activity, type: 'hidden'%>
+                    <%= f.check_box :done ,:checked => true, :style => 'visibility: hidden'%>
+                    <%= f.submit "Cross Off" ,class: "btn btn-outline-secondary btn-sm"%>
+                  <% end%>
+                </center>
+              </td>
+              <td><%= button_to "Destroy", to_do_list, method: :delete ,data:{confirm: "Are you sure?"},class:"btn btn-outline-danger btn-sm" %></td>
+              </tr>
+            <% end%>
+          <% end%>
+        <% end %>
+      </div> 
+    </tbody>
+  </table>
 
-<%= link_to "New Activity", new_to_do_list_path,class:"btn btn-info" %>
-<br><br>
-<%= link_to "Delete Marked Items" ,home_trash_em_path,method: :delete,class:"btn btn-warning"%>
-<br><br>
-<%= link_to "Delete All Items",home_trash_em_all_path,method: :delete,class:"btn btn-danger"%>
+  <%= link_to "New Activity", new_to_do_list_path,class:"btn btn-info" %>
+  <br><br>
+  <%= link_to "Delete Marked Items" ,home_trash_em_path,method: :delete,class:"btn btn-warning"%>
+  <br><br>
+  <%= link_to "Delete All Items",home_trash_em_all_path,method: :delete,class:"btn btn-danger"%>
+<% else%>
+  <h1>WELCOME TO TO DO LIST APP</h1>
+<% end %> 

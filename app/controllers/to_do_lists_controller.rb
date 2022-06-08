@@ -1,5 +1,7 @@
 class ToDoListsController < ApplicationController
   before_action :set_to_do_list, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: [:index,:show]
+  before_action :correct_user,only: [:edit,:update,:destroy]
 
   # GET /to_do_lists or /to_do_lists.json
   def index
@@ -7,13 +9,18 @@ class ToDoListsController < ApplicationController
     @to_do_list = ToDoList.new
   end
 
+  def correct_user
+    @to_do_list = current_user.to_do_lists.find_by(id: params[:id])
+    redirect_to root_path,notice:"Not Authorized To Edit This Friend" if @to_do_list.nil?
+  end
   # GET /to_do_lists/1 or /to_do_lists/1.json
   def show
   end
 
   # GET /to_do_lists/new
   def new
-    @to_do_list = ToDoList.new
+    #@to_do_list = ToDoList.new
+    @to_do_list = current_user.to_do_lists.build
   end
 
   # GET /to_do_lists/1/edit
@@ -22,7 +29,8 @@ class ToDoListsController < ApplicationController
 
   # POST /to_do_lists or /to_do_lists.json
   def create
-    @to_do_list = ToDoList.new(to_do_list_params)
+    #@to_do_list = ToDoList.new(to_do_list_params)
+    @to_do_list = current_user.to_do_lists.build(to_do_list_params)
 
     respond_to do |format|
       if @to_do_list.save
@@ -66,6 +74,6 @@ class ToDoListsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def to_do_list_params
-      params.require(:to_do_list).permit(:activity, :done)
+      params.require(:to_do_list).permit(:activity, :done, :user_id)
     end
 end

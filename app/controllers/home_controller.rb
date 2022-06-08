@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  before_action :authenticate_user!
   def trash_em
     @trash_em = ToDoList.where(:done => true).destroy_all
     redirect_to root_url,notice: 'All Marked Activities Are Deleted'

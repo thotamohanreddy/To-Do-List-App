@@ -15,6 +15,10 @@
     <%= form.text_area :activity,class:"form-control",placeholder: "Activity" %>
   </div>
   <br>
+  <div class="form form-field">
+  <%= form.number_field :user_id, id: :to_do_list_user_id,class:"form-control",value: current_user.id ,type: :hidden%>
+</div>
+<br>
   <div class="form form-check">
     <%= form.label :done, style: "display: radio",class: "form-check-label"%>
     <%= form.check_box :done,class: "form-check-input" %>
